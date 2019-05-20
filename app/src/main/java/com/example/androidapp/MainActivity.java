@@ -1,5 +1,6 @@
 package com.example.androidapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView generatedNumber = findViewById(R.id.randomNumber);
         final RNG randomNo = new RNG(1, 20);
 
+        //Navigation
+        final Button navigate = findViewById(R.id.navigateBtn);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +66,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String rngNumber = Integer.toString(randomNo.generate());
+                randomNo.setNumber(Integer.parseInt(rngNumber));
                 generatedNumber.setText(rngNumber);
 
+            }
+        });
+
+        navigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                Bundle b = new Bundle();
+
+                b.putInt("RNG", randomNo.getNumber());
+                b.putBoolean("LIGHT", isOn);
+
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 
