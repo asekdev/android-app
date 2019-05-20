@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ConstraintLayout constraintLayout;
     private boolean isOn;
+    final RNG randomNo = new RNG(1, 20);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView rngHeader = findViewById(R.id.rngHeader);
         final Button generate = findViewById(R.id.generateBtn);
         final TextView generatedNumber = findViewById(R.id.randomNumber);
-        final RNG randomNo = new RNG(1, 20);
+
 
         //Navigation
         final Button navigate = findViewById(R.id.navigateBtn);
@@ -75,16 +76,28 @@ public class MainActivity extends AppCompatActivity {
         navigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                Bundle b = new Bundle();
-
-                b.putInt("RNG", randomNo.getNumber());
-                b.putBoolean("LIGHT", isOn);
-
-                intent.putExtras(b);
-                startActivity(intent);
+               passData();
             }
         });
 
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        //Essentially overrides the onCreate() method, as it's called after it
+//        constraintLayout.setBackgroundColor(Color.GRAY);
+//    }
+
+    private void passData() {
+        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        Bundle b = new Bundle();
+
+        b.putInt("RNG", randomNo.getNumber());
+        b.putBoolean("LIGHT", isOn);
+
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
 }
